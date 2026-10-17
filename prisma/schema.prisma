@@ -1,0 +1,148 @@
+generator client {
+  provider             = "prisma-client-py"
+  interface            = "asyncio"
+  recursive_type_depth = 10
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  user_id        Int        @id @default(autoincrement())
+  firstname      String     @db.VarChar(255)
+  lastname       String     @db.VarChar(255)
+  national_code  String     @unique @db.VarChar(15)
+  phone_number   String     @db.VarChar(15)
+  tel_id         BigInt     @unique @db.BigInt
+  tel_chat_id    BigInt     @unique @db.BigInt
+  user_role      UserRole   @default(STUDENT)
+  dob            DateTime
+  grade          Grade
+  field          Field
+  created_at     DateTime   @default(now())
+  students_order Order[]    @relation("advisor")
+  advisors_order Order[]    @relation("user")
+  referrer       Referral?  @relation("referrer")
+  referred       Referral[] @relation("referred")
+  started_chats  Chat[]     @relation("started_by")
+  received_chats Chat[]     @relation("received_by")
+  messages       Message[]
+  uploads        Upload[]
+}
+
+model Product {
+  product_id Int       @id @default(autoincrement())
+  title      String    @db.VarChar(512)
+  price      BigInt    @db.BigInt
+  capacity   Int?
+  deleted_at DateTime?
+  created_at DateTime  @default(now())
+  Order      Order[]
+}
+
+model Payment {
+  payment_id Int           @id @default(autoincrement())
+  method     PaymentMethod
+  amount     BigInt        @db.BigInt
+  authority  String?       @db.Text
+  status     PaymentStatus @default(PENDING)
+  created_at DateTime      @default(now())
+  payload    Json?         @db.JsonB
+  order      Order?
+}
+
+model Order {
+  order_id    Int       @id @default(autoincrement())
+  product_id  Int
+  user_id     Int
+  advisor_id  Int?
+  payment_id  Int       @unique
+  created_at  DateTime  @default(now())
+  refunded_at DateTime?
+  payment     Payment   @relation(fields: [payment_id], references: [payment_id])
+  advisor     User?     @relation(fields: [advisor_id], references: [user_id], name: "advisor")
+  user        User      @relation(fields: [user_id], references: [user_id], name: "user")
+  product     Product   @relation(fields: [product_id], references: [product_id])
+}
+
+model Referral {
+  referral_id Int      @id @default(autoincrement())
+  referrer_id Int      @unique // user_id of person who use the link
+  referred_id Int // user_id of person who created and owns the link
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  referrer    User     @relation(fields: [referrer_id], references: [user_id], name: "referrer")
+  referred    User     @relation(fields: [referred_id], references: [user_id], name: "referred")
+}
+
+model Chat {
+  chat_id        Int       @id @default(autoincrement())
+  created_at     DateTime  @default(now())
+  updated_at     DateTime  @updatedAt
+  exited_at      DateTime?
+  started_by_id  Int
+  received_by_id Int?
+  messages       Message[]
+  started_by     User      @relation(fields: [started_by_id], references: [user_id], name: "started_by")
+  received_by    User?     @relation(fields: [received_by_id], references: [user_id], name: "received_by")
+}
+
+model Message {
+  message_id Int     @id @default(autoincrement())
+  user_id    Int
+  chat_id    Int
+  message    String? @db.Text
+  payload    Json?   @db.JsonB
+  chat       Chat    @relation(fields: [chat_id], references: [chat_id])
+  user       User    @relation(fields: [user_id], references: [user_id])
+}
+
+model Group {
+  group_id     Int      @id @default(autoincrement())
+  tel_group_id BigInt   @unique @db.BigInt
+  group_name   String   @db.Text
+  primary      Boolean  @default(false)
+  created_at   DateTime @default(now())
+}
+
+model Upload {
+  upload_id          Int      @id @default(autoincrement())
+  uploaded_file_name String   @unique @db.Text
+  user_id            Int
+  payload            Json?    @db.JsonB
+  created_at         DateTime @default(now())
+  user               User     @relation(fields: [user_id], references: [user_id])
+}
+
+enum Grade {
+  TENTH
+  ELEVENTH
+  TWELVTH
+  DIPLOMA
+}
+
+enum Field {
+  MATH
+  MEDICAL
+  HUMANITIES
+}
+
+enum UserRole {
+  STUDENT
+  ADVISOR
+  ADMIN
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  CANCELED
+}
+
+enum PaymentMethod {
+  GATE
+  REFERRAL
+  MANUAL
+}

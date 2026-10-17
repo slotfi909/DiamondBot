@@ -1,0 +1,17 @@
+function '_get_confirm_code_from_user' needs to be integrated with robot
+    so that it sends a confirmation request to admin groups for an admin phone number
+
+
+example how to use:
+
+import src.payment.zarinlink.functions
+import asyncio 
+
+async def main():
+
+    rand_num, link = await src.payment.zarinlink.functions.get_payment_link()
+    # after payment
+    paid = await src.payment.zarinlink.functions.verify_payment(rand_num)
+    return
+
+asyncio.run(main())

@@ -1,0 +1,59 @@
+version: '3.9'
+
+services:
+  bot:
+    build: ./
+    restart: on-failure
+    depends_on:
+      - db
+    environment:
+      WEBHOOK_HOST: ${WEBHOOK_HOST:?Set WEBHOOK_HOST in .env}
+      WEBHOOK_PORT: ${WEBHOOK_PORT:-8443}
+      ZARINPAL_MERCHANT_ID: ${ZARINPAL_MERCHANT_ID:?Set ZARINPAL_MERCHANT_ID in .env}
+      ZARINLINK_PHONE_NUMBER: ${ZARINLINK_PHONE_NUMBER:-}
+      ZARINLINK_PAYMENT_LINK: ${ZARINLINK_PAYMENT_LINK:-}
+      ZARINLINK_PAYMENTS_URL: ${ZARINLINK_PAYMENTS_URL:-}
+    secrets:
+      - db
+      - db_user
+      - db_pass
+      - bot_token
+    volumes:
+      - bot_data:/app/data
+      - bot_logs:/app/logs
+    ports:
+      - target: ${WEBHOOK_PORT:-8443}
+        published: ${WEBHOOK_PORT:-8443}
+        protocol: tcp
+        mode: host
+  db:
+    image: postgres:15.1-alpine
+    restart: always
+    secrets:
+      - db
+      - db_user
+      - db_pass
+    environment:
+      POSTGRES_DB_FILE: /run/secrets/db
+      POSTGRES_USER_FILE: /run/secrets/db_user
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_pass
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
+    driver: local
+  bot_data:
+    driver: local
+  bot_logs:
+    driver: local
+
+secrets:
+  db:
+    file: ./db.txt
+  db_user:
+    file: ./db_user.txt
+  db_pass:
+    file: ./db_pass.txt
+  bot_token:
+    file: ./bot_token.txt

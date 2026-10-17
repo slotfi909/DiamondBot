@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="fa">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400..700&display=swap"
+            rel="stylesheet"
+        />
+        {% if was_successful %}
+        <title>پرداخت با موفقیت انجام شد</title>
+        {% else %}
+        <title>متاسفانه مشکلی در پرداخت بوجود آمده است</title>
+        {% endif %}
+
+        <style>
+            /* Reset CSS */
+            *,
+            *::before,
+            *::after {
+                font-family: "Vazirmatn", sans-serif;
+                font-size: 1rem;
+                direction: rtl;
+            }
+
+            html,
+            body,
+            div,
+            span,
+            applet,
+            object,
+            iframe,
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6,
+            p,
+            blockquote,
+            pre,
+            a,
+            abbr,
+            acronym,
+            address,
+            big,
+            cite,
+            code,
+            del,
+            dfn,
+            em,
+            img,
+            ins,
+            kbd,
+            q,
+            s,
+            samp,
+            small,
+            strike,
+            strong,
+            sub,
+            sup,
+            tt,
+            var,
+            b,
+            u,
+            i,
+            center,
+            dl,
+            dt,
+            dd,
+            ol,
+            ul,
+            li,
+            fieldset,
+            form,
+            label,
+            legend,
+            table,
+            caption,
+            tbody,
+            tfoot,
+            thead,
+            tr,
+            th,
+            td,
+            article,
+            aside,
+            canvas,
+            details,
+            embed,
+            figure,
+            figcaption,
+            footer,
+            header,
+            hgroup,
+            menu,
+            nav,
+            output,
+            ruby,
+            section,
+            summary,
+            time,
+            mark,
+            audio,
+            video {
+                margin: 0;
+                padding: 0;
+                border: 0;
+                font-size: 100%;
+                font: inherit;
+                vertical-align: baseline;
+            }
+            /* HTML5 display-role reset for older browsers */
+            article,
+            aside,
+            details,
+            figcaption,
+            figure,
+            footer,
+            header,
+            hgroup,
+            menu,
+            nav,
+            section {
+                display: block;
+            }
+            body {
+                line-height: 1;
+            }
+            ol,
+            ul {
+                list-style: none;
+            }
+            blockquote,
+            q {
+                quotes: none;
+            }
+            blockquote:before,
+            blockquote:after,
+            q:before,
+            q:after {
+                content: "";
+                content: none;
+            }
+            table {
+                border-collapse: collapse;
+                border-spacing: 0;
+            }
+
+            /* Main Part */
+            .container {
+                display: flex;
+                justify-content: center;
+                height: 100vh;
+                padding: 2rem 5rem;
+            }
+
+            .title {
+                font-size: 2.5rem;
+                font-weight: 700;
+                text-align: center;
+                color: #f15153;
+            }
+
+            .stack {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 2rem;
+            }
+
+            .text-stack {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .description {
+                font-size: 1.125rem;
+                text-align: center;
+            }
+
+            .btn {
+                display: block;
+                text-decoration: none;
+                color: #fff;
+                padding: 1rem 2rem;
+                border-radius: 999px;
+                background-color: #24a1de;
+            }
+        </style>
+    </head>
+    <body>
+        <main class="container">
+            <div class="stack">
+                {% if was_successful %}
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    x="0px"
+                    y="0px"
+                    width="100"
+                    height="100"
+                    viewBox="0,0,256,256"
+                >
+                    <g
+                        fill="none"
+                        fill-rule="nonzero"
+                        stroke="none"
+                        stroke-width="1"
+                        stroke-linecap="butt"
+                        stroke-linejoin="miter"
+                        stroke-miterlimit="10"
+                        stroke-dasharray=""
+                        stroke-dashoffset="0"
+                        font-family="none"
+                        font-weight="none"
+                        font-size="none"
+                        text-anchor="none"
+                        style="mix-blend-mode: normal"
+                    >
+                        <g transform="scale(3.2,3.2)">
+                            <path
+                                d="M40,77.5c-20.7,0 -37.5,-16.8 -37.5,-37.5c0,-20.7 16.8,-37.5 37.5,-37.5c20.7,0 37.5,16.8 37.5,37.5c0,20.7 -16.8,37.5 -37.5,37.5z"
+                                fill="#3fb449"
+                            ></path>
+                            <path
+                                d="M40,3c20.4,0 37,16.6 37,37c0,20.4 -16.6,37 -37,37c-20.4,0 -37,-16.6 -37,-37c0,-20.4 16.6,-37 37,-37M40,2c-21,0 -38,17 -38,38c0,21 17,38 38,38c21,0 38,-17 38,-38c0,-21 -17,-38 -38,-38z"
+                                fill="#5e9c76"
+                            ></path>
+                            <path
+                                d="M34,56l-13.8,-13.8l4.3,-4.2l9.5,9.6l24.2,-24.2l4.3,4.2z"
+                                fill="#ffffff"
+                            ></path>
+                        </g>
+                    </g>
+                </svg>
+                {% else %}
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    x="0px"
+                    y="0px"
+                    width="100"
+                    height="100"
+                    viewBox="0,0,300,150"
+                    style="fill: #fa5252"
+                >
+                    <g
+                        fill="#fa5252"
+                        fill-rule="nonzero"
+                        stroke="none"
+                        stroke-width="1"
+                        stroke-linecap="butt"
+                        stroke-linejoin="miter"
+                        stroke-miterlimit="10"
+                        stroke-dasharray=""
+                        stroke-dashoffset="0"
+                        font-family="none"
+                        font-weight="none"
+                        font-size="none"
+                        text-anchor="none"
+                        style="mix-blend-mode: normal"
+                    >
+                        <g transform="scale(4.5, 4.5)">
+                            <path
+                                d="M25,2c-12.681,0 -23,10.319 -23,23c0,12.681 10.319,23 23,23c12.681,0 23,-10.319 23,-23c0,-12.681 -10.319,-23 -23,-23zM33.71,32.29c0.39,0.39 0.39,1.03 0,1.42c-0.2,0.19 -0.45,0.29 -0.71,0.29c-0.26,0 -0.51,-0.1 -0.71,-0.29l-7.29,-7.29l-7.29,7.29c-0.2,0.19 -0.45,0.29 -0.71,0.29c-0.26,0 -0.51,-0.1 -0.71,-0.29c-0.39,-0.39 -0.39,-1.03 0,-1.42l7.29,-7.29l-7.29,-7.29c-0.39,-0.39 -0.39,-1.03 0,-1.42c0.39,-0.39 1.03,-0.39 1.42,0l7.29,7.29l7.29,-7.29c0.39,-0.39 1.03,-0.39 1.42,0c0.39,0.39 0.39,1.03 0,1.42l-7.29,7.29z"
+                            ></path>
+                        </g>
+                    </g>
+                </svg>
+                {% endif %}
+
+                <div class="text-stack">
+                    <h1 class="title">
+                        {% if was_successful %} پرداخت با موفقیت انجام شد {%
+                        else %} پرداخت با خطا مواجه شد {% endif %}
+                    </h1>
+
+                    <p class="description">{{ message }}</p>
+                </div>
+
+                <a class="btn" href="https://t.me/{{ bot_username }}">
+                    بازگشت به ربات
+                </a>
+            </div>
+        </main>
+    </body>
+</html>
